@@ -13,10 +13,27 @@
         error: null,
         loading: false,
         async loadMovieData() {
-            // this.movies = ...
+            this.movies = await  response.loadMovieData
         }
     }">
-        <!-- ... -->
+        <button @click="loadMovieData()">Load Movies</button>
+
+        <template x-if="loading">
+            <p>Loading...</p>
+        </template>
+
+        <template x-if="error">
+            <p x-text="error" style="color:rgb(60, 0, 255);"></p>
+        </template>
+
+        <ul>
+            <template x-for="movie in movies" :key="movie.id">
+                <li>
+                    <strong x-text="movie.title"></strong> 
+                    (<span x-text="movie.release_date"></span>)
+                </li>
+            </template>
+        </ul>
     </div>
 </body>
 </html>
