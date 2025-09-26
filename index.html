@@ -1,22 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Showing Movie Data from an API</title>
-    <link rel="stylesheet" href="./css/style.css" />
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script type="module" src="./js/scripts.js"></script>
+  <title>Movie List</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="./js/scripts.js"></script>
 </head>
 <body>
-    <h1>Movie Data</h1>
-    <div x-data="{
-        movies: [],
-        error: null,
-        loading: false,
-        async loadMovieData() {
-            // this.movies = ...
-        }
-    }">
-        <!-- ... -->
+  <h1>Movie List</h1>
+
+  <div x-data="movieListComponent" x-init="init()">
+    <!-- Search and Filter -->
+    <div class="search-filter">
+      <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" />
+      <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
     </div>
+
+
+<!-- Watchlist Button -->
+<div class="top-buttons">
+  <a href="watchlist.html">
+    <button class="watchlist-btn">My Watchlist</button>
+  </a>
+</div>
+
+    <template x-if="error">
+      <div class="error" x-text="error"></div>
+    </template>
+
+    <!-- Movies Grid -->
+    <div class="movies">
+      <template x-for="movie in movies" :key="movie.id">
+        <div class="movie-card">
+          <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" alt="" />
+          <h3 x-text="movie.title"></h3>
+          <p>Release: <span x-text="movie.release_date"></span></p>
+
+          <div class="buttons">
+            <a :href="'movie.html?movie_id=' + movie.id">
+              <button class="view-btn">View Details</button>
+            </a>
+            <button class="watchlist-btn" @click="addToWatchlist(movie)">Add to Watchlist</button>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
 </body>
 </html>

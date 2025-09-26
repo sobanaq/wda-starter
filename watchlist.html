@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Watchlist</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="./js/scripts.js"></script>
+</head>
+<body>
+  <h1>My Watchlist</h1>
+
+  <div x-data="watchlistComponent" x-init="init()">
+    <template x-if="watchlist.length === 0">
+      <p>Your watchlist is empty.</p>
+    </template>
+
+    <div class="movies">
+      <template x-for="movie in watchlist" :key="movie.id">
+        <div class="movie-card">
+          <h3 x-text="movie.title"></h3>
+          <div class="buttons">
+            <button class="remove-btn" @click="removeFromWatchlist(movie.id)">Remove</button>
+            <a :href="'movie.html?movie_id=' + movie.id">
+              <button class="view-btn">View Details</button>
+            </a>
+          </div>
+        </div>
+      </template>
+    </div>
+    <a href="index.html"><button class="view-btn back-btn">Back to Movie List</button></a>
+  </div>
+</body>
+</html>

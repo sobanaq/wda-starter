@@ -1,3 +1,87 @@
-body {
-    font-family: Arial, sans-serif;
+/* Sticky header */
+.header {
+    position: sticky;
+    top: 0;
+    background: #333;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+
+.header h1 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.header-controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.header-controls input[type="text"],
+.header-controls input[type="number"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    width: 180px;
+}
+
+.header-controls button {
+    font-weight: bold;
+}
+
+/* Movie cards */
+.movies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.movie-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-btn {
+    background-color: #4caf50;
+    color: white;
+    margin: 2px;
+}
+
+.view-btn:hover {
+    background-color: #45a049;
+}
+
+.watchlist-btn {
+    background-color: #ff6600;
+    color: white;
+    margin: 2px;
+}
+
+.watchlist-btn:hover {
+    background-color: #e65c00;
 }
