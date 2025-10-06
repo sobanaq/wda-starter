@@ -14,9 +14,30 @@ export default class MovieHelper {
         }
     }
 
-    async getMovies() {
-        const response = await this.apiRequest("discover/movie")
+ async getMovies(page = 1, searchKeyword = '', filter_year = '') {
+    let endpoint;
+    let urlParams = `?api_key=${this.api_key}&language=en-US&page=${page}`;
+
+    if (searchKeyword) {
+        // If user typed something, search by keyword
+        endpoint = "search/movie";
+        urlParams += `&query=${encodeURIComponent(searchKeyword)}`;
+    } else {
+        // Otherwise, use discover to browse
+        endpoint = "discover/movie";
+        if (filter_year) urlParams += `&year=${filter_year}`;
+    }
+
+    const url = `${this.api_root}/${endpoint}${urlParams}`;
+
+    try {
+        const response = await fetch(url);
         const json = await response.json();
         return json.results;
+    } catch (error) {
+        console.error("Error fetching:", error);
+        return [];
     }
+}
+
 }

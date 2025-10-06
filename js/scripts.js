@@ -27,7 +27,7 @@ let movieListComponent = {
     async loadMovies() {
         try {
             const helper = await loadMovieHelper();
-            let allMovies = await helper.getMovies();
+            let allMovies = await helper.getMovies(this.page, this.searchKeyword, this.filter_year);
 
             // Filter by year
             if (this.filter_year) {
