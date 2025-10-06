@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Movie List</title>
   <link rel="stylesheet" href="./css/style.css" />
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="./js/scripts.js"></script>
 </head>
 <body>
+  <!-- Navigation Bar -->
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="index.html" class="logo">MovieDatabase</a>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="watchlist.html" class="nav-link">My Watchlist</a>
+  </div>
+</nav>
+
   <h1>Movie List</h1>
 
   <div x-data="movieListComponent" x-init="init()">
@@ -18,16 +28,16 @@
 
 
 <!-- Watchlist Button -->
-<div class="top-buttons">
+<!-- <div class="top-buttons">
   <a href="watchlist.html">
     <button class="watchlist-btn">My Watchlist</button>
   </a>
 </div>
 
     <template x-if="error">
-      <div class="error" x-text="error"></div>
-    </template>
+      <div class="error" x-text="error"></div> -->
 
+    </template>
     <!-- Movies Grid -->
     <div class="movies">
       <template x-for="movie in movies" :key="movie.id">

@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Watchlist</title>
   <link rel="stylesheet" href="./css/style.css" />
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="./js/scripts.js"></script>
 </head>
 <body>
+  <!-- Navigation Bar -->
+<nav class="navbar">
+  
+  <div class="nav-left">
+    <a href="index.html" class="logo">MovieDatabase</a>
+  </div>
+  <div class="nav-right">
+    <a href="index.html" class="nav-link">Home</a>
+  </div>
+</nav>
+
   <h1>My Watchlist</h1>
 
   <div x-data="watchlistComponent" x-init="init()">
