@@ -8,7 +8,8 @@
 <body>
   <!-- Navigation Bar -->
 <nav class="navbar">
-  
+    <div class="logo-container">
+      <img src="images/projector.png" alt="Movie App Logo" class="logo">
   <div class="nav-left">
     <a href="index.html" class="logo">MovieDatabase</a>
   </div>
@@ -18,7 +19,6 @@
 </nav>
 
   <h1>My Watchlist</h1>
-
   <div x-data="watchlistComponent" x-init="init()">
     <template x-if="watchlist.length === 0">
       <p>Your watchlist is empty.</p>
