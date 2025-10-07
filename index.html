@@ -2,7 +2,7 @@
 <html>
 <head>
   <link rel="stylesheet" href="./css/style.css" />
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="./js/alpine.js"></script>
   <script src="./js/scripts.js"></script>
 </head>
 <body>
@@ -26,6 +26,7 @@
       <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" />
       <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
     </div>
+
 
 
 <!-- Watchlist Button -->
@@ -54,6 +55,7 @@
           </div>
         </div>
       </template>
+      
     </div>
   </div>
 </body>
