@@ -79,11 +79,11 @@ button {
 }
 
 .view-btn:hover {
-    background-color: #45a049;
+    background-color: #39853c;
 }
 
 .watchlist-btn {
-    background-color: #ff6600;
+    background-color: #c34c00;
     color: white;
     margin: 2px;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+  <title>This page has a title</title>
 <head>
   <link rel="stylesheet" href="./css/style.css" />
   <script defer src="./js/alpine.js"></script>
@@ -28,6 +29,7 @@
         <p x-text="movie.overview"></p>
         <p>Release: <span x-text="movie.release_date"></span></p>
         <p>Rating: <span x-text="movie.vote_average"></span></p>
+        <p>Genres: <span x-text="movie.genres"></span></p>
 
         <div class="buttons">
           <button class="watchlist-btn" @click="addToWatchlist(movie)">Add to Watchlist</button>
