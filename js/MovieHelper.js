@@ -14,30 +14,32 @@ export default class MovieHelper {
         }
     }
 
- async getMovies(page = 1, searchKeyword = '', filter_year = '') {
-    let endpoint;
-    let urlParams = `?api_key=${this.api_key}&language=en-US&page=${page}`;
+async getMovies(page = 1, searchKeyword = '', filter_year = '', genreId = '') {
+  let endpoint;
+  let urlParams = `?api_key=${this.api_key}&language=en-US&page=${page}`;
 
-    if (searchKeyword) {
-        // If user typed something, search by keyword
-        endpoint = "search/movie";
-        urlParams += `&query=${encodeURIComponent(searchKeyword)}`;
-    } else {
-        // Otherwise, use discover to browse
-        endpoint = "discover/movie";
-        if (filter_year) urlParams += `&year=${filter_year}`;
-    }
+  if (searchKeyword) {
+    // If user typed something, search by keyword
+    endpoint = "search/movie";
+    urlParams += `&query=${encodeURIComponent(searchKeyword)}`;
+  } else {
+    // Otherwise, use discover to browse
+    endpoint = "discover/movie";
+    if (filter_year) urlParams += `&year=${filter_year}`;
+    //search by genre
+    if (genreId) urlParams += `&with_genres=${genreId}`; 
+  }
 
-    const url = `${this.api_root}/${endpoint}${urlParams}`;
+  const url = `${this.api_root}/${endpoint}${urlParams}`;
 
-    try {
-        const response = await fetch(url);
-        const json = await response.json();
-        return json.results;
-    } catch (error) {
-        console.error("Error fetching:", error);
-        return [];
-    }
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json.results;
+  } catch (error) {
+    console.error("Error fetching:", error);
+    return [];
+  }
 }
 
 }

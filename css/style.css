@@ -75,7 +75,11 @@ button {
 .view-btn {
     background-color: #4caf50;
     color: white;
-    margin: 2px;
+    margin: 2px;  
+    font-family: 'Verdana', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
 }
 
 .view-btn:hover {
@@ -86,6 +90,10 @@ button {
     background-color: #c34c00;
     color: white;
     margin: 2px;
+      font-family: 'Verdana', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .watchlist-btn:hover {

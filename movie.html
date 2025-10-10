@@ -26,10 +26,13 @@
       <div class="movie-details">
         <h2 x-text="movie.title"></h2>
         <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="" />
-        <p x-text="movie.overview"></p>
-        <p>Release: <span x-text="movie.release_date"></span></p>
+        <h3>Movie Synopsis</h3>
+        <p><span x-text="movie.overview"></span></p>
+        <p>Release date: <span x-text="new Date(movie.release_date).toLocaleDateString('en-GB')"></span></p>
         <p>Rating: <span x-text="movie.vote_average"></span></p>
-        <p>Genres: <span x-text="movie.genres"></span></p>
+        <p>Genres: <span x-text="movie.genres.map(g => g.name).join(', ')"></span></p>
+        <p>Runtime: <span x-text="movie.runtime"></span> minutes</p>
+        <p>Languages: <span x-text="movie.spoken_languages[0].english_name"></span></p>
 
         <div class="buttons">
           <button class="watchlist-btn" @click="addToWatchlist(movie)">Add to Watchlist</button>

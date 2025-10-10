@@ -23,13 +23,17 @@
   <h1>Movie List</h1>
   <div x-data="movieListComponent" x-init="init()">
     <!-- Search and Filter -->
-    <div class="search-filter">
-      <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" />
-      <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
-    </div>
-
-
-
+ <div class="search-filter">
+  <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" /> 
+  <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
+ <!-- filter by genre -->
+  <select x-model="selectedGenre" @change="loadMovies()">
+    <option value="">All Genres</option>
+    <template x-for="genre in genres" :key="genre.id">
+      <option :value="genre.id" x-text="genre.name"></option>
+    </template>
+  </select>
+</div>
 <!-- Watchlist Button -->
 <!-- <div class="top-buttons">
   <a href="watchlist.html">
