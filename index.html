@@ -33,6 +33,8 @@
       <option :value="genre.id" x-text="genre.name"></option>
     </template>
   </select>
+  <!-- Runtime filter -->
+   <input type="number" placeholder="Max Runtime (mins)" x-model="maxRuntime" @input="loadMovies()" />
 </div>
 <!-- Watchlist Button -->
 <!-- <div class="top-buttons">

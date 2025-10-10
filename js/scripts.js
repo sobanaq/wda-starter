@@ -22,6 +22,7 @@ let movieListComponent = {
   selectedGenre: '',
   filter_year: '',
   searchKeyword: '',
+  maxRuntime: '',
   error: null,
   init() {
     this.loadGenres();
@@ -57,6 +58,10 @@ let movieListComponent = {
         allMovies = allMovies.filter(m =>
           m.title.toLowerCase().includes(this.searchKeyword.toLowerCase())
         );
+    //Filter by runtime
+        if (this.maxRuntime){
+            allMovies = allMovies.filter(m => m.runtime && m.runtime <= Number(this.maxRuntime));
+        }
       }
 
       this.movies = allMovies;
