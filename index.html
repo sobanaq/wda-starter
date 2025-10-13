@@ -34,8 +34,12 @@
     </template>
   </select>
   <!-- Runtime filter -->
-   <input type="number" placeholder="Max Runtime (mins)" x-model="maxRuntime" @input="loadMovies()" />
-</div>
+  <select x-model="filter_runtime" @change="loadMovies()">
+  <option value="">Filter by runtime...</option>
+  <option value="short">Under 90 min</option>
+  <option value="medium">90–120 min</option>
+  <option value="long">Over 120 min</option>
+</select>
 <!-- Watchlist Button -->
 <!-- <div class="top-buttons">
   <a href="watchlist.html">

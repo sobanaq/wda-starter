@@ -1,6 +1,6 @@
 let MovieHelperInstance;
 
-// Load MovieHelper class
+//Load MovieHelper class
 async function loadMovieHelper() {
   if (!MovieHelperInstance) {
     const module = await import("./MovieHelper.js");
@@ -58,12 +58,14 @@ let movieListComponent = {
   genres: [],
   selectedGenre: "",
   filter_year: "",
+  filter_runtime: "",
   searchKeyword: "",
-  maxRuntime: "",
+  page: 1,
   error: null,
-  init() {
+
+  async init() {
     this.loadGenres();
-    this.loadMovies();
+    await this.loadMovies();
   },
 
   async loadGenres() {
@@ -89,29 +91,41 @@ let movieListComponent = {
         this.selectedGenre
       );
 
-      //Filter by year
+      // Optional: give time for runtime data to load
+      await new Promise((r) => setTimeout(r, 300));
+
+     
+      // Filter by year
       if (this.filter_year) {
         allMovies = allMovies.filter((m) =>
           m.release_date?.startsWith(this.filter_year)
         );
-        //Filter by genre
       }
+
+      // Filter by genre
       if (this.selectedGenre) {
         allMovies = allMovies.filter((m) =>
           m.genre_ids.includes(Number(this.selectedGenre))
         );
       }
+
       // Filter by search keyword
       if (this.searchKeyword) {
         allMovies = allMovies.filter((m) =>
           m.title.toLowerCase().includes(this.searchKeyword.toLowerCase())
         );
-        //Filter by runtime
-        if (this.maxRuntime) {
-          allMovies = allMovies.filter(
-            (m) => m.runtime && m.runtime <= Number(this.maxRuntime)
-          );
-        }
+      }
+
+      // Filter by runtime
+      if (this.filter_runtime) {
+        allMovies = allMovies.filter((m) => {
+          const runtime = m.runtime || 0;
+          if (this.filter_runtime === "short") return runtime && runtime < 90;
+          if (this.filter_runtime === "medium")
+            return runtime >= 90 && runtime <= 120;
+          if (this.filter_runtime === "long") return runtime > 120;
+          return true;
+        });
       }
 
       this.movies = allMovies;
@@ -133,10 +147,12 @@ let movieListComponent = {
 let movieComponent = {
   movie: null,
   soundtrack: null,
+
   init() {
     const movie_id = getUrlParam("movie_id");
     if (movie_id) this.loadMovie(movie_id);
   },
+
   async loadMovie(movie_id) {
     try {
       const helper = await loadMovieHelper();
@@ -144,11 +160,13 @@ let movieComponent = {
         `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${helper.api_key}&language=en-US`
       );
       this.movie = await response.json();
+
       this.soundtrack = await getSpotifyTrack(this.movie.title);
     } catch (err) {
       console.error("Failed to load movie:", err);
     }
   },
+
   addToWatchlist(movie) {
     let watchlist = JSON.parse(localStorage.getItem("watchlist") || "[]");
     if (!watchlist.find((m) => m.id === movie.id)) watchlist.push(movie);
@@ -160,9 +178,11 @@ let movieComponent = {
 // --- Watchlist Component ---
 let watchlistComponent = {
   watchlist: [],
+
   init() {
     this.watchlist = JSON.parse(localStorage.getItem("watchlist") || "[]");
   },
+
   removeFromWatchlist(id) {
     this.watchlist = this.watchlist.filter((m) => m.id !== id);
     localStorage.setItem("watchlist", JSON.stringify(this.watchlist));

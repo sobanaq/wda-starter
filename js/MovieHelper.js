@@ -35,10 +35,27 @@ export default class MovieHelper {
     try {
       const response = await fetch(url);
       const json = await response.json();
-      return json.results;
-    } catch (error) {
-      console.error("Error fetching:", error);
-      return [];
+    //   return json.results;
+    // } catch (error) {
+    //   console.error("Error fetching:", error);
+    //   return [];
+    const movies = await Promise.all(
+      json.results.map(async (m) => {
+        try {
+          const details = await fetch(`${this.api_root}/movie/${m.id}?api_key=${this.api_key}&language=en-US`);
+          const detailsData = await details.json();
+          m.runtime = detailsData.runtime;
+        } catch {
+          m.runtime = null; //fallback
+        }
+        return m;
+      })
+    );
+    return movies;
+} catch (error) {
+    console.error("Error fetching:", error);
+    return[];
+
     }
   }
 
