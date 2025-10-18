@@ -33,12 +33,13 @@
         <p>Genres: <span x-text="movie.genres.map(g => g.name).join(', ')"></span></p>
         <p>Runtime: <span x-text="movie.runtime"></span> minutes</p>
         <p>Languages: <span x-text="movie.spoken_languages[0].english_name"></span></p>
-        
+        <p>Production: <span x-text="productionCompany"></span> (<span x-text="productionCountry"></span>)</p>
+        <p><strong>Certification:</strong> <span x-text="certification"></span></p>
         <!-- spotify 'button' for movie soundtrack -->
     <template x-if="soundtrack">
     <div class="soundtrack">
-      <h3>Soundtrack</h3>
-      <p><strong x-text="soundtrack.name"></strong> by <span x-text="soundtrack.artists[0].name"></span></p>
+      <h3>Movie Soundtrack</h3>
+      <p><x-text="soundtrack.name">  Soundtrack By <span x-text="soundtrack.artists[0].name"></span></p>
       <iframe :src="'https://open.spotify.com/embed/track/' + soundtrack.id"width="300" height="100" 
         frameborder="0" 
         allowtransparency="true" 

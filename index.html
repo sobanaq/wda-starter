@@ -7,7 +7,7 @@
   <script src="./js/scripts.js"></script>
 </head>
 <body>
-  <!-- Navigation Bar -->
+<!-- Navigation Bar -->
 <nav class="navbar">
     <div class="logo-container">
       <img src="images/projector.png" alt="Movie App Logo" class="logo">
@@ -19,10 +19,9 @@
     <a href="watchlist.html" class="nav-link">My Watchlist</a>
   </div>
 </nav>
-
   <h1>Movie List</h1>
   <div x-data="movieListComponent" x-init="init()">
-    <!-- Search and Filter -->
+<!-- Search and Filter -->
  <div class="search-filter">
   <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" /> 
   <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
@@ -33,30 +32,21 @@
       <option :value="genre.id" x-text="genre.name"></option>
     </template>
   </select>
-  <!-- Runtime filter -->
+<!-- Runtime filter -->
   <select x-model="filter_runtime" @change="loadMovies()">
   <option value="">Filter by runtime...</option>
   <option value="short">Under 90 min</option>
   <option value="medium">90–120 min</option>
   <option value="long">Over 120 min</option>
 </select>
-<!-- Watchlist Button -->
-<!-- <div class="top-buttons">
-  <a href="watchlist.html">
-    <button class="watchlist-btn">My Watchlist</button>
-  </a>
-</div>
-
-    <template x-if="error">
-      <div class="error" x-text="error"></div> -->
-
     </template>
-    <!-- Movies Grid -->
+<!-- Movies Grid -->
     <div class="movies">
       <template x-for="movie in movies" :key="movie.id">
         <div class="movie-card">
           <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" alt="" />
           <h3 x-text="movie.title"></h3>
+          <p>Cert:<span x-text="movie.certification || 'Not Rated' "></span></p>
           <p>Release: <span x-text="movie.release_date"></span></p>
           <div class="buttons">
             <a :href="'movie.html?movie_id=' + movie.id">
@@ -66,7 +56,6 @@
           </div>
         </div>
       </template>
-      
     </div>
   </div>
 </body>

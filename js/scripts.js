@@ -91,10 +91,9 @@ let movieListComponent = {
         this.selectedGenre
       );
 
-      // Optional: give time for runtime data to load
+      // delay for runtime data
       await new Promise((r) => setTimeout(r, 300));
 
-     
       // Filter by year
       if (this.filter_year) {
         allMovies = allMovies.filter((m) =>
@@ -128,6 +127,29 @@ let movieListComponent = {
         });
       }
 
+      // Fetch certification for each movie (GB → US fallback)
+      await Promise.all(
+        allMovies.map(async (movie) => {
+          try {
+            const certResponse = await fetch(
+              `https://api.themoviedb.org/3/movie/${movie.id}/release_dates?api_key=${helper.api_key}`
+            );
+            const certData = await certResponse.json();
+
+            let countryRelease =
+              certData.results.find((r) => r.iso_3166_1 === "GB") ||
+              certData.results.find((r) => r.iso_3166_1 === "US");
+
+            movie.certification =
+              countryRelease && countryRelease.release_dates.length > 0
+                ? countryRelease.release_dates[0].certification || "Not rated"
+                : "Not rated";
+          } catch {
+            movie.certification = "Not rated";
+          }
+        })
+      );
+
       this.movies = allMovies;
     } catch (err) {
       this.error = "Failed to load movies.";
@@ -147,6 +169,9 @@ let movieListComponent = {
 let movieComponent = {
   movie: null,
   soundtrack: null,
+  certification: null,
+  productionCompany: null,
+  productionCountry: null,
 
   init() {
     const movie_id = getUrlParam("movie_id");
@@ -156,18 +181,52 @@ let movieComponent = {
   async loadMovie(movie_id) {
     try {
       const helper = await loadMovieHelper();
+
+      // Fetch movie details
       const response = await fetch(
         `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${helper.api_key}&language=en-US`
       );
       this.movie = await response.json();
 
+      // Get production info
+      if (this.movie.production_companies && this.movie.production_companies.length > 0) {
+        this.productionCompany =
+          this.movie.production_companies[0].name || "Unknown";
+        this.productionCountry =
+          this.movie.production_companies[0].origin_country || "Unknown";
+      } else {
+        this.productionCompany = "Unknown";
+        this.productionCountry = "Unknown";
+      }
+
+      // Fetch soundtrack
       this.soundtrack = await getSpotifyTrack(this.movie.title);
+
+      // Fetch certification data
+      const certResponse = await fetch(
+        `https://api.themoviedb.org/3/movie/${movie_id}/release_dates?api_key=${helper.api_key}`
+      );
+      const certData = await certResponse.json();
+
+      // Try GB first, fallback to US
+      let countryRelease =
+        certData.results.find((r) => r.iso_3166_1 === "GB") ||
+        certData.results.find((r) => r.iso_3166_1 === "US");
+
+      if (countryRelease && countryRelease.release_dates.length > 0) {
+        this.certification =
+          countryRelease.release_dates[0].certification || "Not rated";
+      } else {
+        this.certification = "Not rated";
+      }
     } catch (err) {
       console.error("Failed to load movie:", err);
+      this.certification = "Not rated";
+      this.productionCompany = "Unknown";
+      this.productionCountry = "Unknown";
     }
   },
-
-  addToWatchlist(movie) {
+    addToWatchlist(movie) {
     let watchlist = JSON.parse(localStorage.getItem("watchlist") || "[]");
     if (!watchlist.find((m) => m.id === movie.id)) watchlist.push(movie);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));

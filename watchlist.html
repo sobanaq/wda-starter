@@ -28,7 +28,10 @@
     <div class="movies">
       <template x-for="movie in watchlist" :key="movie.id">
         <div class="movie-card">
+          <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" alt="" />
           <h3 x-text="movie.title"></h3>
+          <p>Cert:<span x-text="movie.certification || 'Not Rated' "></span></p>
+          <p>Release: <span x-text="movie.release_date"></span></p>
           <div class="buttons">
             <button class="remove-btn" @click="removeFromWatchlist(movie.id)">Remove</button>
             <a :href="'movie.html?movie_id=' + movie.id">

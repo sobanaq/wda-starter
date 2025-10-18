@@ -14,50 +14,67 @@ export default class MovieHelper {
     }
   }
 
-  async getMovies(page = 1,searchKeyword = "",filter_year = "",genreId = "") {
-    let endpoint;
-    let urlParams = `?api_key=${this.api_key}&language=en-US&page=${page}`
+async getMovies(page = 1, searchKeyword = "", filter_year = "", genreId = "") {
+  let endpoint;
+  let urlParams = `?api_key=${this.api_key}&language=en-US&page=${page}`;
 
-    if (searchKeyword) {
-      // If user typed something, search by keyword
-      endpoint = "search/movie";
-      urlParams += `&query=${encodeURIComponent(searchKeyword)}`;
-    } else {
-      // Otherwise, use discover to browse
-      endpoint = "discover/movie";
-      if (filter_year) urlParams += `&year=${filter_year}`;
-      //search by genre
-      if (genreId) urlParams += `&with_genres=${genreId}`;
-    }
+  if (searchKeyword) {
+    // If user typed something, search by keyword
+    endpoint = "search/movie";
+    urlParams += `&query=${encodeURIComponent(searchKeyword)}`;
+  } else {
+    // Otherwise, use discover to browse
+    endpoint = "discover/movie";
+    if (filter_year) urlParams += `&year=${filter_year}`;
+    //search by genre
+    if (genreId) urlParams += `&with_genres=${genreId}`;
+  }
 
-    const url = `${this.api_root}/${endpoint}${urlParams}`;
+  const url = `${this.api_root}/${endpoint}${urlParams}`;
 
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-    //   return json.results;
-    // } catch (error) {
-    //   console.error("Error fetching:", error);
-    //   return [];
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+
     const movies = await Promise.all(
       json.results.map(async (m) => {
         try {
-          const details = await fetch(`${this.api_root}/movie/${m.id}?api_key=${this.api_key}&language=en-US`);
+          // Get runtime
+          const details = await fetch(
+            `${this.api_root}/movie/${m.id}?api_key=${this.api_key}&language=en-US`
+          );
           const detailsData = await details.json();
           m.runtime = detailsData.runtime;
+
+          // Get certification (GB or fallback to US)
+          const certResponse = await fetch(
+            `${this.api_root}/movie/${m.id}/release_dates?api_key=${this.api_key}`
+          );
+          const certData = await certResponse.json();
+          const release =
+            certData.results.find((r) => r.iso_3166_1 === "GB") ||
+            certData.results.find((r) => r.iso_3166_1 === "US");
+
+          if (release && release.release_dates.length > 0) {
+            m.certification = release.release_dates[0].certification || "Not Rated";
+          } else {
+            m.certification = "Not Rated";
+          }
         } catch {
-          m.runtime = null; //fallback
+          m.runtime = null;
+          m.certification = "Not Rated"; //fallback
         }
         return m;
       })
     );
+
     return movies;
-} catch (error) {
+  } catch (error) {
     console.error("Error fetching:", error);
     return[];
-
-    }
   }
+}
+
 
   async getSpotifyToken() {
     const clientId = "d71782d450f44101ba021b2985090a77";
