@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Movie Database</title>
+  <title>ReelTalk</title>
   <link rel="stylesheet" href="./css/style.css" />
   <script defer src="./js/alpine.js"></script>
   <script src="./js/scripts.js"></script>
@@ -22,10 +22,13 @@
   <h1>Movie List</h1>
   <div x-data="movieListComponent" x-init="init()">
 <!-- Search and Filter -->
- <div class="search-filter">
-  <input type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" /> 
-  <input type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
+ <div class="search-filter"><label for="search-movies" class="sr-only">Search movies by title</label>
+ <input id="search-movies" type="text" placeholder="Search movies..." x-model="searchKeyword" @input="loadMovies()" />
+   <!--filter by year  -->
+ <label for="filter-year" class="sr-only">Filter movies by year</label>
+ <input id="filter-year" type="number" placeholder="Filter by year..." x-model="filter_year" @input="loadMovies()" />
  <!-- filter by genre -->
+  <label for="filter-genre" class="sr-only">Filter movies by genre</label>
   <select x-model="selectedGenre" @change="loadMovies()">
     <option value="">All Genres</option>
     <template x-for="genre in genres" :key="genre.id">
@@ -33,18 +36,20 @@
     </template>
   </select>
 <!-- Runtime filter -->
+ <label for="filter-runtime" class="sr-only">Filter movies by runtime</label>
   <select x-model="filter_runtime" @change="loadMovies()">
   <option value="">Filter by runtime...</option>
   <option value="short">Under 90 min</option>
   <option value="medium">90–120 min</option>
   <option value="long">Over 120 min</option>
 </select>
+</div>
     </template>
 <!-- Movies Grid -->
     <div class="movies">
       <template x-for="movie in movies" :key="movie.id">
         <div class="movie-card">
-          <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" alt="" />
+          <img :src="'https://image.tmdb.org/t/p/w200' + movie.poster_path" alt="movie.title + 'poster'" />
           <h3 x-text="movie.title"></h3>
           <p>Cert:<span x-text="movie.certification || 'Not Rated' "></span></p>
           <p>Release: <span x-text="movie.release_date"></span></p>
