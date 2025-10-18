@@ -19,38 +19,33 @@
     <a href="watchlist.html" class="nav-link">My Watchlist</a>
   </div>
 </nav>
-
   <h1>Movie Details</h1>
   <div x-data="movieComponent" x-init="init()">
-    <template x-if="movie">
-      <div class="movie-details">
-        <h2 x-text="movie.title"></h2>
-        <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="" />
-        <h3>Movie Synopsis</h3>
-        <p><span x-text="movie.overview"></span></p>
-        <p>Release date: <span x-text="new Date(movie.release_date).toLocaleDateString('en-GB')"></span></p>
-        <p>Rating: <span x-text="movie.vote_average"></span></p>
-        <p>Genres: <span x-text="movie.genres.map(g => g.name).join(', ')"></span></p>
-        <p>Runtime: <span x-text="movie.runtime"></span> minutes</p>
-        <p>Languages: <span x-text="movie.spoken_languages[0].english_name"></span></p>
-        <p>Production: <span x-text="productionCompany"></span> (<span x-text="productionCountry"></span>)</p>
-        <p><strong>Certification:</strong> <span x-text="certification"></span></p>
-        <!-- spotify 'button' for movie soundtrack -->
-    <template x-if="soundtrack">
+  <template x-if="movie">
+  <div class="movie-details">
+  <h2 x-text="movie.title"></h2>
+  <p x-show="certification">Certification: <span x-text="certification"></span></p>
+  <img :src="'https://image.tmdb.org/t/p/w300' + movie.poster_path" alt="Poster of movie: " x-bind:alt="'Poster of movie: ' + movie.title" />
+  <h3>Movie Synopsis</h3>
+  <p x-text="movie.overview"></p>
+  <p>Release date: <span x-text="new Date(movie.release_date).toLocaleDateString('en-GB')"></span></p>
+  <p>Rating: <span x-text="movie.vote_average"></span></p>
+  <p>Genres: <span x-text="movie.genres.map(g => g.name).join(', ')"></span></p>
+  <p>Runtime: <span x-text="movie.runtime"></span> minutes</p>
+  <p x-show="movie.production_companies.length > 0">Production: <span x-text="movie.production_companies.map(c => c.name).join(', ')"></span></p>
+  <p x-show="movie.credits && movie.credits.cast.length > 0">Cast: <span x-text="movie.credits.cast.map(c => c.name).join(', ')"></span></p>
+  <template x-if="soundtrack">
     <div class="soundtrack">
-      <h3>Movie Soundtrack</h3>
-      <p><x-text="soundtrack.name">  Soundtrack By <span x-text="soundtrack.artists[0].name"></span></p>
-      <iframe :src="'https://open.spotify.com/embed/track/' + soundtrack.id"width="300" height="100" 
-        frameborder="0" 
-        allowtransparency="true" 
-        allow="encrypted-media">
-      </iframe>
+      <h3>Soundtrack</h3>
+      <p><strong x-text="soundtrack.name"></strong> by <span x-text="soundtrack.artists[0].name"></span></p>
+      <iframe :src="'https://open.spotify.com/embed/track/' + soundtrack.id" width="300" height="100" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     </div>
   </template>
-        <div class="buttons">
-          <button class="watchlist-btn" @click="addToWatchlist(movie)">Add to Watchlist</button>
-          <a href="index.html"><button class="view-btn">Back to List</button></a>
-        </div>
+  <div class="buttons">
+    <button class="watchlist-btn" @click="addToWatchlist(movie)">Add to Watchlist</button>
+    <a href="index.html"><button class="view-btn">Back to List</button></a>
+  </div>
+</div>
   </div>
   </div>
 </body>

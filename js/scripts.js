@@ -184,7 +184,7 @@ let movieComponent = {
 
       // Fetch movie details
       const response = await fetch(
-        `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${helper.api_key}&language=en-US`
+        `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${helper.api_key}&language=en-US&append_to_response=credits`
       );
       this.movie = await response.json();
 
