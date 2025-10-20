@@ -105,7 +105,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #de8484; 
+  background-color: #4151c6; 
   padding: 10px 20px;
 }
 
@@ -194,5 +194,46 @@ a:hover {
   padding: 10px 20px;
   font-size: 16px;
   background-color:darkolivegreen
+}
+
+.no-results {
+  text-align: center;
+  margin-top: 30px;
+  color: #888;
+  font-size: 1.1rem;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle {
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin-left: 10px;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #222222;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #e4e4e4;
+}
+
+.dark-mode .movie-card {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+.dark-mode button {
+  background-color: #333;
+  color: #fff;
 }
 

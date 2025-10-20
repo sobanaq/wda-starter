@@ -9,14 +9,17 @@
 <body>
 <!-- Navigation Bar -->
 <nav class="navbar">
+  <div class="nav-left">
     <div class="logo-container">
       <img src="images/projector.png" alt="Movie App Logo" class="logo">
-  <div class="nav-left">
-    <a href="index.html" class="logo">ReelTalk</a>
+      <a href="index.html" class="logo-text">ReelTalk</a>
+    </div>
   </div>
+
   <div class="nav-right">
     <a href="index.html" class="nav-link">Home</a>
     <a href="watchlist.html" class="nav-link">My Watchlist</a>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme">Dark/Light theme</button>
   </div>
 </nav>
   <h1>Movie List</h1>
@@ -66,6 +69,11 @@
     <div class="load-more-container">
       <button class="view-btn" @click="loadMore()">Load More</button>
     </div>
+<!-- No results message -->
+ <template x-if="!loading && movies.length === 0">
+    <p class="no-results">Oh no! There were no results found under this query! Adjust your filters and try again.</p>
+  </template>
+</div>
   </div>
 </body>
 </html>

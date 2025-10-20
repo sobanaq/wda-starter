@@ -62,6 +62,7 @@ let movieListComponent = {
   searchKeyword: "",
   page: 1,
   error: null,
+  loading: false,
 
   async init() {
     this.loadGenres();
@@ -81,7 +82,8 @@ let movieListComponent = {
     }
   },
 
-  async loadMovies() {
+  async loadMovies(append = false) {
+    this.loading = true;
     try {
       const helper = await loadMovieHelper();
       let allMovies = await helper.getMovies(
@@ -154,6 +156,8 @@ let movieListComponent = {
     } catch (err) {
       this.error = "Failed to load movies.";
       console.error(err);
+    } finally {
+      this.loading = false;
     }
   },
 
@@ -254,3 +258,23 @@ let watchlistComponent = {
     localStorage.setItem("watchlist", JSON.stringify(this.watchlist));
   },
 };
+// Change theme Dark/light
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.getElementById("themeToggle");
+  const currentTheme = localStorage.getItem("theme") || "light";
+
+  // Apply stored theme
+  document.body.classList.add(currentTheme + "-mode");
+  themeToggle.textContent = currentTheme === "dark" ? "Light" : "Dark";
+
+  themeToggle.addEventListener("click", () => {
+    const isDark = document.body.classList.contains("dark-mode");
+
+    document.body.classList.toggle("dark-mode", !isDark);
+    document.body.classList.toggle("light-mode", isDark);
+
+    const newTheme = isDark ? "light" : "dark";
+    themeToggle.textContent = newTheme === "dark" ? "Light" : "Dark";
+    localStorage.setItem("theme", newTheme);
+  });
+});

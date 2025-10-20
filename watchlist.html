@@ -9,16 +9,19 @@
 <body>
   <!-- Navigation Bar -->
 <nav class="navbar">
+  <div class="nav-left">
     <div class="logo-container">
       <img src="images/projector.png" alt="Movie App Logo" class="logo">
-  <div class="nav-left">
-    <a href="index.html" class="logo">MovieDatabase</a>
+      <a href="index.html" class="logo-text">ReelTalk</a>
+    </div>
   </div>
+
   <div class="nav-right">
     <a href="index.html" class="nav-link">Home</a>
+    <a href="watchlist.html" class="nav-link">My Watchlist</a>
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme">Dark/Light theme</button>
   </div>
 </nav>
-
   <h1>My Watchlist</h1>
   <div x-data="watchlistComponent" x-init="init()">
     <template x-if="watchlist.length === 0">
