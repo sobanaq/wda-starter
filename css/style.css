@@ -4,7 +4,7 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
-/* Sticky header */
+
 .header {
     position: sticky;
     top: 0;
@@ -41,7 +41,7 @@ body {
     font-weight: bold;
 }
 
-/* Movie cards */
+
 .movies {
     display: flex;
     flex-wrap: wrap;
@@ -100,7 +100,7 @@ button {
     background-color: #e65c00;
 }
 
-/* Navbar styling */
+
 nav {
   display: flex;
   align-items: center;
@@ -125,7 +125,6 @@ nav {
   width: auto;
 }
 
-/* Navigation links */
 .nav-links {
   list-style-position:inside;
   display: flex;
@@ -184,5 +183,16 @@ a:hover {
   clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
+}
+
+.load-more-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.load-more-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color:darkolivegreen
 }
 

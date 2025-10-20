@@ -9,7 +9,7 @@ async function loadMovieHelper() {
   return MovieHelperInstance;
 }
 
-// --- Spotify Integration ---
+//Spotify Integration
 async function getSpotifyToken() {
   const client_id = "d71782d450f44101ba021b2985090a77";
   const client_secret = "1c4431c59ea140f4862e0070e9f5fa8a";
@@ -157,6 +157,13 @@ let movieListComponent = {
     }
   },
 
+  // To load more pages
+  async loadMore() {
+    this.page++;
+    await this.loadMovies(true); 
+  },
+
+
   addToWatchlist(movie) {
     let watchlist = JSON.parse(localStorage.getItem("watchlist") || "[]");
     if (!watchlist.find((m) => m.id === movie.id)) watchlist.push(movie);
@@ -165,7 +172,7 @@ let movieListComponent = {
   },
 };
 
-// --- Single Movie Component ---
+// Single Movie Component
 let movieComponent = {
   movie: null,
   soundtrack: null,
@@ -234,7 +241,7 @@ let movieComponent = {
   },
 };
 
-// --- Watchlist Component ---
+// Watchlist Component
 let watchlistComponent = {
   watchlist: [],
 
